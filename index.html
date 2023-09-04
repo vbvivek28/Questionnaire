@@ -1,0 +1,147 @@
+<html>
+<head>
+ <title>Questionnaire</title>
+ <link rel="stylesheet" href="/style.css">
+ <script src="https://www.google.com/recaptcha/api.js?render=6LcJUxwmAAAAAAapPUE5hSQ8dfAVKd_9kzpVf0gN"></script>
+</head>
+<body>
+  <h1>Questionnaire</h1>
+  <form onsubmit="return runVerify(event)" id="verifyForm" action="/mail" method="post">
+   
+    <div class="question">
+      <label for="name">Name</label>
+      <textarea type="text" id="name" name="name" required></textarea>
+      <span id="name-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="Email">Email</label>
+      <textarea type="text" id="Email" name="Email" required></textarea>
+      <span id="Email-error" class="validation-message"></span>
+    </div>
+
+    <hr>
+    <hr>
+
+    <div class="question">
+      <label for="question1">1.	What is your full name?:</label>
+      <textarea type="text" id="question1" name="question1" required></textarea>
+      <span id="question1-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question2">2.	Are you currently practicing as an ENT doctor or planning to start a new clinic?:</label>
+      <textarea type="text" id="question2" name="question2" required></textarea>
+      <span id="question2-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question3">3.	Do you have any specific themes or concepts in mind for your clinic's name?:</label>
+      <textarea type="text" id="question3" name="question3" required></textarea>
+      <span id="question3-error" class="validation-message"></span>
+    </div>
+
+
+    <div class="question">
+      <label for="question4">4.	What is the primary focus or specialty of your clinic? (e.g., general ENT, pediatric ENT, sinus and allergy, voice disorders):</label>
+      <textarea type="text" id="question4" name="question4" required></textarea>
+      <span id="question4-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question5">5.	Are there any specific services or treatments that you offer and would like to highlight in the clinic name?:</label>
+      <textarea type="text" id="question5" name="question5" required></textarea>
+      <span id="question5-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question6">6.	Do you prefer a professional and formal clinic name or something more casual and approachable?:</label>
+      <textarea type="text" id="question6" name="question6" required></textarea>
+      <span id="question6-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question7">7.	Is there a specific geographic location or region that you want to associate with your clinic's name?:</label>
+      <textarea type="text" id="question7" name="question7" required></textarea>
+      <span id="question7-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question8">8.	Are there any languages or cultural influences that you would like to incorporate into the clinic name?:</label>
+      <textarea type="text" id="question8" name="question8" required></textarea>
+      <span id="question8-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question9">9.	What is the overall image or brand you want to convey through the clinic's name?:</label>
+      <textarea type="text" id="question9" name="question9" required></textarea>
+      <span id="question9-error" class="validation-message"></span>
+    </div>
+ 
+    <div class="question">
+      <label for="question10">10.	Do you have any specific keywords or phrases that you would like to be included in the clinic name?:</label>
+      <textarea type="text" id="question10" name="question10" required></textarea>
+      <span id="question10-error" class="validation-message"></span>
+    </div>
+
+
+    <div class="question">
+      <label for="question11">11.	Are there any competitor clinic names in your area that you admire or would like to differentiate yourself from?:</label>
+      <textarea type="text" id="question11" name="question11" required></textarea>
+      <span id="question11-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question12">12.	Is there a specific length or word count that you prefer for the clinic's name?:</label>
+      <textarea type="text" id="question12" name="question12" required></textarea>
+      <span id="question12-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question13">13.	Are there any specific naming conventions or legal considerations that need to be followed in your location or industry?:</label>
+      <textarea type="text" id="question13" name="question13" required></textarea>
+      <span id="question13-error" class="validation-message"></span>
+    </div>
+
+    <div class="question">
+      <label for="question14">14.	Do you have any other preferences or important information that should be considered while creating the clinic's name?:</label>
+      <textarea type="text" id="question14" name="question14" required></textarea>
+      <span id="question14-error" class="validation-message"></span>
+    </div>
+    <button type="submit" class="submit-button">Submit</button>
+  </form>
+
+
+ <script>
+    function runVerify(e){
+        e.preventDefault();
+        
+        grecaptcha.execute('6LcJUxwmAAAAAAapPUE5hSQ8dfAVKd_9kzpVf0gN', {action: 'homepage'}).then(function(token) {
+          
+        const captcha = token;
+            fetch('/verifyCaptcha',{
+            method: 'POST',
+            headers:{
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                
+            },
+            body:JSON.stringify({captcha:captcha})
+            }).then(res => res.json()).then(data => { alert("msg: " + data.msg + ", success: " + data.success + ", score: " + data.score)
+            
+            if (data.success === true) {
+              // Re-submit the form since the reCAPTCHA verification was successful
+              document.getElementById('verifyForm').submit();
+            }
+        })
+    }
+  )
+};
+
+
+
+
+
+ </script>
+</body>
+</html>
